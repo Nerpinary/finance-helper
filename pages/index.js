@@ -2,9 +2,8 @@ import {
     Container,
     Box,
     Heading,
-    Image,
     useColorModeValue,
-    Button, SimpleGrid
+    SimpleGrid
 } from "@chakra-ui/react";
 import Section from "../components/section";
 import Layout from "../components/layouts/article";

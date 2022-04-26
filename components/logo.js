@@ -31,7 +31,7 @@ const Logo = () => {
                         fontFamily='M PLUS Runded 1c'
                         fontWeight="bold"
                         ml={3}>
-                        Maxim Sitnikov
+                        Finance Helper
                     </Text>
                 </LogoBox>
             </a>

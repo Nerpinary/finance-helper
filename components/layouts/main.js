@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import Navbar from '../navbar'
 import {Box, Container} from '@chakra-ui/react'
+import NoSsr from "../no-ssr";
+import Dollar from "../dollar";
 
 const Main = ({children, router}) => {
     return (
@@ -13,6 +15,9 @@ const Main = ({children, router}) => {
             <Navbar path={router.asPath} />
 
             <Container maxW="container.md" pt={14}>
+                <NoSsr>
+                    <Dollar />
+                </NoSsr>
                 {children}
             </Container>
         </Box>

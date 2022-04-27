@@ -93,7 +93,7 @@ const Navbar = props => {
                                 <NextLink href="/credit" passHref>
                                     <MenuItem as={Link}>Credit</MenuItem>
                                 </NextLink>
-                                <MenuItem as={Link} href="#">Other works</MenuItem>
+                                <MenuItem as={Link} href="https://nerpinary-homepage.vercel.app/">Other works</MenuItem>
                             </MenuList>
                         </Menu>
                     </Box>

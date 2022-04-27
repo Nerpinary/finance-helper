@@ -20,15 +20,20 @@ const Saveup = () => {
     const [result, setResult] = useState(0)
     const [ideal, setIdeal] = useState(0)
 
+    const handleResetDisplay = () => {
+        setDisplayNoman('none')
+        setDisplaySubmit('none')
+        setDisplayResult('none')
+        setDisplayBut('none')
+    }
+
     const handleChangeSum = (evt) => {
         setSumForSaveup(evt.target.value)
         if (evt.target.value !== '') {
             setDisplaySalary("flex")
         } else {
-            setDisplayNoman('none')
             setDisplaySalary("none")
-            setDisplaySubmit('none')
-            setDisplayResult('none')
+            handleResetDisplay()
         }
     }
 
@@ -37,8 +42,8 @@ const Saveup = () => {
         if (evt.target.value !== '' && sumForSaveup !== '' ) {
             setDisplaySave('flex')
         } else {
-            setDisplayNoman('none')
             setDisplaySave('none')
+            handleResetDisplay()
         }
     }
 
@@ -47,8 +52,7 @@ const Saveup = () => {
         if (evt.target.value !== '' && sumForSaveup !== '' && salary !== '') {
             setDisplaySubmit('flex')
         } else {
-            setDisplayNoman('none')
-            setDisplaySubmit('none')
+            handleResetDisplay()
         }
     }
 

@@ -1,7 +1,11 @@
-import {Box, Heading} from "@chakra-ui/react";
+import {Box, Heading, useColorModeValue} from "@chakra-ui/react";
+import Section from "./section";
 
 const Result = ({children, display, months}) => (
         <Box
+            p={5}
+            borderRadius={20}
+            bg={useColorModeValue("whiteAlpha.600", "whiteAlpha.200")}
             display={display}
             w="full"
             justifyContent="center"

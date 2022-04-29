@@ -40,17 +40,21 @@ const Saveup = () => {
 
     const handleChangeSum = (evt) => {
         setSumForSaveup(evt.target.value)
+        console.log(evt.target.value)
         handleResetDisplay()
+        consol()
     }
 
     const handleChangeSalary = (evt) => {
         setSalary(evt.target.value)
         handleResetDisplay()
+        consol()
     }
 
     const handleChangeSave = (evt) => {
         setSave(evt.target.value)
         handleResetDisplay()
+        consol()
     }
 
     const handleCalculate = () => {
@@ -62,9 +66,9 @@ const Saveup = () => {
         const sal = convertSalary
         const sav = convertSave
 
-        let res = sum / sav
-        let ide = sal / 10
-        let ideRes = sum / ide
+        const res = sum / sav
+        const ide = sal / 10
+        const ideRes = sum / ide
 
         if (sum > sal * 100 && sum > sav * 100) {
             setDisplayNoman('flex')
@@ -91,7 +95,7 @@ const Saveup = () => {
         console.log(sav)
     }
 
-    const handleConverter = () => {
+    const handleConverter = async () => {
         const sum = +document.querySelector('#sum').value
         const sumValute = document.querySelector('#sumSelect').value
         const sal = +document.querySelector('#salary').value
@@ -161,6 +165,15 @@ const Saveup = () => {
             }
         }
         setMonthsRes('месяцев')
+    }
+
+    const consol = () => {
+        console.log(sumForSaveup)
+        console.log(salary)
+        console.log(save)
+        console.log(convert)
+        console.log(convertSalary)
+        console.log(convertSave)
     }
 
     return (

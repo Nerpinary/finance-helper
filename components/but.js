@@ -2,6 +2,7 @@ import {Box, Heading} from "@chakra-ui/react";
 
 const But = ({children, display, months}) => (
     <Box
+        bg="orange"
         display={display}
         w="full"
         justifyContent="center"

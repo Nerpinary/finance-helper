@@ -1,6 +1,6 @@
 import {Box, Heading} from "@chakra-ui/react";
 
-const Result = ({children, display}) => (
+const Result = ({children, display, months}) => (
         <Box
             display={display}
             w="full"
@@ -10,12 +10,12 @@ const Result = ({children, display}) => (
             flexDirection="column"
         >
             <Box>
-            <p>You will be able to accumulate this amount in</p>
+            <p>Вы накопите эту сумму за</p>
             </Box>
             <Heading display="inline" as="h3" align="center">
                 {children}
             </Heading>
-            <p>months</p>
+            <p>{months}</p>
         </Box>
 );
 

@@ -27,11 +27,12 @@ const Logo = () => {
                 <LogoBox>
                     <Image src={sibaIcon} width={20} height={20} alt="logo" />
                     <Text
+                        letterSpacing='0.01em'
                         color={useColorModeValue('gray.800', 'whiteAlpha.900')}
                         fontFamily='M PLUS Runded 1c'
                         fontWeight="bold"
                         ml={3}>
-                        Finance Helper
+                        Финансовый ассистент
                     </Text>
                 </LogoBox>
             </a>

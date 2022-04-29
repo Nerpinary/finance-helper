@@ -1,7 +1,7 @@
 import {Container, Input, Select, useColorModeValue} from "@chakra-ui/react";
 import {Title} from "./titles";
 
-const RowWithCheckboxInput = ({id, display, value, onChange, text, type, placeholder}) => (
+const RowWithCheckboxInput = ({id, idSelect, display, value, onChange, onChangeSelect, text, type, placeholder}) => (
         <Container
             w="full"
             display={display}
@@ -19,10 +19,10 @@ const RowWithCheckboxInput = ({id, display, value, onChange, text, type, placeho
                 flexDirection="row"
             >
                 <Input bg={useColorModeValue('#f3f9f699', '#f3f9f622')} id={id} value={value} onChange={onChange} mr={2} mt={2} w="60%" type={type} placeholder={placeholder} />
-                <Select bg={useColorModeValue('#f3f9f699', '#f3f9f622')} variant="outline" md="xs" mt={2} w="40%" type="select">
-                    <option>RUB</option>
-                    <option>USD</option>
-                    <option>EUR</option>
+                <Select id={idSelect} onChange={onChangeSelect} bg={useColorModeValue('#f3f9f699', '#f3f9f622')} variant="outline" md="xs" mt={2} w="40%" type="select">
+                    <option value="RUB" defaultChecked>RUB</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
                 </Select>
             </Container>
         </Container>

@@ -16,25 +16,25 @@ const Page = () => {
         <Layout>
             <Container>
                 <Box borderRadius="lg" bg={useColorModeValue('whiteAlpha.500', 'whiteAlpha.200')} p={3} mb={6} align="center">
-                    Hello! Wellcome to my Finance Helper!
+                    Привет! добро пожаловать в мой Финансовый ассистент
                 </Box>
 
                 <Section delay={0.1}>
                     <Heading as="h2" variant="pade-title" align="center">
-                        Pleace, choose option
+                        Выбери опцию
                     </Heading>
                 </Section>
 
                 <Section delay={0.2}>
                     <SimpleGrid columns={[1,1,2]} gap={6}>
                         <Section>
-                            <OptionGridItem id="saveup" title="Save up" thumbnail={thumbSaveup}>
-                                How long should I save for this purchase?
+                            <OptionGridItem id="saveup" title="Сколько мне копить" thumbnail={thumbSaveup}>
+                                Сколько мне копить ту или иную сумму?
                             </OptionGridItem>
                         </Section>
                         <Section>
-                            <OptionGridItem id="credit" title="Credit" thumbnail={thumbCredit}>
-                                How much will I pay for my loan?
+                            <OptionGridItem id="credit" title="Кредит" thumbnail={thumbCredit}>
+                                Как много я переплачу за кредит?
                             </OptionGridItem>
                         </Section>
                     </SimpleGrid>

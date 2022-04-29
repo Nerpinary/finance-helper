@@ -69,8 +69,8 @@ const Navbar = props => {
                     flexGrow={1}
                     mt={{base: 4, nmd: 0}}
                 >
-                    <LinkItem href="/saveup" path={path}>Save up</LinkItem>
-                    <LinkItem href="/credit" path={path}>Credit</LinkItem>
+                    <LinkItem href="/saveup" path={path}>Сколько копить</LinkItem>
+                    <LinkItem href="/credit" path={path}>Кредит</LinkItem>
                 </Stack>
 
                 <Box flex={1} align="right">
@@ -85,15 +85,15 @@ const Navbar = props => {
                             />
                             <MenuList>
                                 <NextLink href="/" passHref>
-                                    <MenuItem as={Link}>Home</MenuItem>
+                                    <MenuItem as={Link}>Домой</MenuItem>
                                 </NextLink>
                                 <NextLink href="/saveup" passHref>
-                                    <MenuItem as={Link}>Save up</MenuItem>
+                                    <MenuItem as={Link}>Сколько мне копить</MenuItem>
                                 </NextLink>
                                 <NextLink href="/credit" passHref>
-                                    <MenuItem as={Link}>Credit</MenuItem>
+                                    <MenuItem as={Link}>Кредит</MenuItem>
                                 </NextLink>
-                                <MenuItem as={Link} href="https://nerpinary-homepage.vercel.app/">Other works</MenuItem>
+                                <MenuItem as={Link} href="https://nerpinary-homepage.vercel.app/">Другие работы</MenuItem>
                             </MenuList>
                         </Menu>
                     </Box>

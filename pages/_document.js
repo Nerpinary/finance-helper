@@ -6,7 +6,7 @@ class MyDocument extends Document {
 
     render() {
         return (
-            <Html lang="en">
+            <Html lang="ru">
                 <Head />
                 <body>
                     <ColorModeScript initialColorMode={theme.config.initialColorMode} />

@@ -10,7 +10,7 @@ const Noman = ({display}) => (
         flexDirection="column"
     >
         <Heading display="inline" as="h3" align="center">
-            No&sbquo; man&sbquo; You don&apos;t want that
+            Рекомендую снизить желаемую сумму либо увеличить доход
         </Heading>
     </Box>
 )

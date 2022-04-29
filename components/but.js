@@ -1,6 +1,6 @@
 import {Box, Heading} from "@chakra-ui/react";
 
-const But = ({children, display}) => (
+const But = ({children, display, months}) => (
     <Box
         display={display}
         w="full"
@@ -10,15 +10,15 @@ const But = ({children, display}) => (
         flexDirection="column"
     >
         <Heading display="inline" as="h3" align="center">
-            BUT
+            НО
         </Heading>
         <Box>
-            <p>If you save 10% of your salary, you will save faster, in just</p>
+            <p>Если вы будете откладывать 10% от своего дохода, вы накопите всего за</p>
         </Box>
         <Heading display="inline" as="h3" align="center">
             {children}
         </Heading>
-        <p>months</p>
+        <p>{months}</p>
     </Box>
 )
 

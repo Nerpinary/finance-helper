@@ -1,5 +1,4 @@
 import {Box, Heading, useColorModeValue} from "@chakra-ui/react";
-import Section from "./section";
 
 const Result = ({children, display, months}) => (
         <Box

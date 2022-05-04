@@ -32,7 +32,7 @@ const Logo = () => {
                         fontFamily='M PLUS Runded 1c'
                         fontWeight="bold"
                         ml={3}>
-                        Финансовый ассистент
+                        Finance assistant
                     </Text>
                 </LogoBox>
             </a>

@@ -12,14 +12,14 @@ const RowWithCheckboxInput = ({id, idSelect, display, value, onChange, onChangeS
             flexDirection="row"
             textAlign="center"
         >
-            <Title align="center" pl={2} w="50%">{text}</Title>
+            <Title>{text}</Title>
             <Container
                 w="full"
                 display="flex"
                 flexDirection="row"
             >
                 <Input bg={useColorModeValue('#f3f9f699', '#f3f9f622')} id={id} value={value} onChange={onChange} mr={2} mt={2} w="60%" type={type} placeholder={placeholder} />
-                <Select id={idSelect} onChange={onChangeSelect} bg={useColorModeValue('#f3f9f699', '#f3f9f622')} variant="outline" md="xs" mt={2} w="40%" type="select">
+                <Select id={idSelect} onChange={onChangeSelect} bg={useColorModeValue('#f3f9f699', '#f3f9f622')} variant="outline" mt={2} w="40%">
                     <option value="RUB" defaultChecked>RUB</option>
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>

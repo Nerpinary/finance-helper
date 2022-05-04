@@ -1,0 +1,3 @@
+interface input {
+    value: number
+}

@@ -13,14 +13,14 @@ import thumbCredit from "../public/images/credit.jpg";
 
 const Page = () => {
     return (
-        <Layout>
+        <Layout title={''}>
             <Container>
-                <Box borderRadius="lg" bg={useColorModeValue('whiteAlpha.500', 'whiteAlpha.200')} p={3} mb={6} align="center">
-                    Привет! добро пожаловать в мой Финансовый ассистент
+                <Box borderRadius="lg" bg={useColorModeValue('whiteAlpha.500', 'whiteAlpha.200')} p={3} mb={6} textAlign="center">
+                    Привет! добро пожаловать в ваш Финансовый ассистент
                 </Box>
 
                 <Section delay={0.1}>
-                    <Heading as="h2" variant="pade-title" align="center">
+                    <Heading as="h2" variant="pade-title" textAlign="center">
                         Выбери опцию
                     </Heading>
                 </Section>

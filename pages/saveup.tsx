@@ -23,7 +23,21 @@ const Saveup = () => {
     const [convert, setConvert] = useState(0)
     const [convertSalary, setConvertSalary] = useState(0)
     const [convertSave, setConvertSave] = useState(0)
-    const baseValute = 'EUR'
+    const [sumValute, setSumValute] = useState('RUB')
+    const [salValute, setSalValute] = useState('RUB')
+    const [savValute, setSavValute] = useState('RUB')
+
+    let valute = {}
+
+    const converter = () => {
+        axios.get("https://www.cbr-xml-daily.ru/daily_json.js")
+            .then((res) => {
+                valute = res.data.Valute
+            })
+            .catch(e => console.log(e))
+    }
+
+    converter()
 
     const handleResetDisplay = () => {
         setDisplayNoman('none')
@@ -40,21 +54,32 @@ const Saveup = () => {
 
     const handleChangeSum = (evt) => {
         setSumForSaveup(evt.target.value)
-        console.log(evt.target.value)
         handleResetDisplay()
-        consol()
     }
 
     const handleChangeSalary = (evt) => {
         setSalary(evt.target.value)
         handleResetDisplay()
-        consol()
     }
 
     const handleChangeSave = (evt) => {
         setSave(evt.target.value)
         handleResetDisplay()
-        consol()
+    }
+
+    const handleChangeSumSelect = (evt) => {
+        setSumValute(evt.target.value)
+        handleResetDisplay()
+    }
+
+    const handleChangeSalSelect = (evt) => {
+        setSalValute(evt.target.value)
+        handleResetDisplay()
+    }
+
+    const handleChangeSavSelect = (evt) => {
+        setSavValute(evt.target.value)
+        handleResetDisplay()
     }
 
     const handleCalculate = () => {
@@ -62,17 +87,19 @@ const Saveup = () => {
         handleResetDisplay()
         handleConverter()
 
-        const sum = convert
-        const sal = convertSalary
-        const sav = convertSave
+        const sum: number = convert
+        const sal: number = convertSalary
+        const sav: number = convertSave
 
-        const res = sum / sav
-        const ide = sal / 10
-        const ideRes = sum / ide
+        const res: number = sum / sav
+        const ide: number = sal / 10
+        const ideRes: number = sum / ide
 
         if (sum > sal * 100 && sum > sav * 100) {
             setDisplayNoman('flex')
-        } else if (salary !== '' && sumForSaveup !== '' && save < ide) {
+        } else if (salary !== '' && sumForSaveup !== '' && parseFloat(save) < ide) {
+            console.log(ide)
+            console.log(parseFloat(save))
             setResult(Math.ceil(res))
             setIdeal(Math.ceil(ideRes))
             changeMonths()
@@ -80,7 +107,7 @@ const Saveup = () => {
             setDisplayNoman('none')
             setDisplayResult('flex')
             setDisplayBut('flex')
-        } else if (salary !== '' && sumForSaveup !== '' && save >= ide) {
+        } else if (salary !== '' && sumForSaveup !== '' && parseFloat(save) >= ide) {
             setResult(Math.ceil(res))
             changeMonthsRes()
             setDisplayBut('none')
@@ -90,48 +117,23 @@ const Saveup = () => {
             setDisplayBut('none')
         }
 
-        console.log(sum)
-        console.log(sal)
-        console.log(sav)
     }
 
-    const handleConverter = async () => {
-        const sum = +document.querySelector('#sum').value
-        const sumValute = document.querySelector('#sumSelect').value
-        const sal = +document.querySelector('#salary').value
-        const salValute = document.querySelector('#salarySelect').value
-        const sav = +document.querySelector('#save').value
-        const savValute = document.querySelector('#saveSelect').value
-
-        if (sumValute !== baseValute) {
-            axios.get("http://api.exchangeratesapi.io/v1/latest?access_key=8172c095996c361dd2a965bdbf6e69f8&format=1&symbols=USD,EUR,RUB")
-                .then((res) => {
-                    const rates = res.data.rates
-                    setConvert(sum / rates[sumValute])
-                })
-                .catch(e => console.log(e))
+    const handleConverter = () => {
+        if (sumValute !== 'RUB') {
+            setConvert(+sumForSaveup * valute[sumValute].Value)
         } else {
-            setConvert(sum)
+            setConvert(+sumForSaveup)
         }
-        if (salValute !== baseValute) {
-            axios.get("http://api.exchangeratesapi.io/v1/latest?access_key=8172c095996c361dd2a965bdbf6e69f8&format=1&symbols=USD,EUR,RUB")
-                .then((res) => {
-                    const rates = res.data.rates
-                    setConvertSalary(sal / rates[salValute])
-                })
-                .catch(e => console.log(e))
+        if (salValute !== 'RUB') {
+            setConvertSalary(+salary * valute[salValute].Value)
         } else {
-            setConvertSalary(sal)
+            setConvertSalary(+salary)
         }
-        if (savValute !== baseValute) {
-            axios.get("http://api.exchangeratesapi.io/v1/latest?access_key=8172c095996c361dd2a965bdbf6e69f8&format=1&symbols=USD,EUR,RUB")
-                .then((res) => {
-                    const rates = res.data.rates
-                    setConvertSave(sav / rates[savValute])
-                })
-                .catch(e => console.log(e))
+        if (savValute !== 'RUB') {
+            setConvertSave(+save * valute[savValute].Value)
         } else {
-            setConvertSave(sav)
+            setConvertSave(+save)
         }
     }
 
@@ -167,25 +169,24 @@ const Saveup = () => {
         setMonthsRes('месяцев')
     }
 
-    const consol = () => {
-        console.log(sumForSaveup)
-        console.log(salary)
-        console.log(save)
-        console.log(convert)
-        console.log(convertSalary)
-        console.log(convertSave)
-    }
-
     return (
-        <Container align="center">
+        <Container alignItems="center">
             <Section delay={0.1}>
-                <RowWithCheckboxInput idSelect="sumSelect" id="sum" value={sumForSaveup} onChange={handleChangeSum} type="number" placeholder="Введите сумму" text="Введите сумму, которую хотите накопить" />
+                <RowWithCheckboxInput idSelect="sumSelect" id="sum" value={sumForSaveup} onChange={handleChangeSum}
+                                      type="number" placeholder="Введите сумму"
+                                      text="Введите сумму, которую хотите накопить" display={undefined}
+                                      onChangeSelect={handleChangeSumSelect} />
             </Section>
             <Section delay={0.3}>
-                <RowWithCheckboxInput idSelect="salarySelect" id="salary" onChange={handleChangeSalary} value={salary} type="number" placeholder="Введите доход" text="Ввдедите ваш ежемесячный доход" />
+                <RowWithCheckboxInput idSelect="salarySelect" id="salary" onChange={handleChangeSalary} value={salary}
+                                      type="number" placeholder="Введите доход" text="Ввдедите ваш ежемесячный доход"
+                                      display={undefined} onChangeSelect={handleChangeSalSelect} />
             </Section>
             <Section delay={0.5}>
-                <RowWithCheckboxInput idSelect="saveSelect" id="save" onChange={handleChangeSave} value={save} type="number" placeholder="Ввдедите сумму" text="Сколько денег вы готовы откладывать ежемесячно?" />
+                <RowWithCheckboxInput idSelect="saveSelect" id="save" onChange={handleChangeSave} value={save}
+                                      type="number" placeholder="Ввдедите сумму"
+                                      text="Сколько денег вы готовы откладывать ежемесячно?" display={undefined}
+                                      onChangeSelect={handleChangeSavSelect} />
             </Section>
             <Section delay={0.7}>
                 <Box display="flex" flexDirection="row" w="full" justifyContent="center">

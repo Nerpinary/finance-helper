@@ -1,3 +1,0 @@
-interface input {
-    value: number
-}

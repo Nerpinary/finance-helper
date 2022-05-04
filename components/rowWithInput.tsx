@@ -1,10 +1,9 @@
 import {Container, Input, Select, useColorModeValue} from "@chakra-ui/react";
 import {Title} from "./titles";
 
-const RowWithCheckboxInput = ({id, idSelect, display, value, onChange, onChangeSelect, text, type, placeholder}) => (
+const RowWithCheckboxInput = ({id, idSelect, value, onChange, onChangeSelect, text, type, placeholder}) => (
         <Container
             w="full"
-            display={display}
             flexWrap="wrap"
             alignItems="center"
             p={2}

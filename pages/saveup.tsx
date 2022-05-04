@@ -174,18 +174,18 @@ const Saveup = () => {
             <Section delay={0.1}>
                 <RowWithCheckboxInput idSelect="sumSelect" id="sum" value={sumForSaveup} onChange={handleChangeSum}
                                       type="number" placeholder="Введите сумму"
-                                      text="Введите сумму, которую хотите накопить" display={undefined}
+                                      text="Введите сумму, которую хотите накопить"
                                       onChangeSelect={handleChangeSumSelect} />
             </Section>
             <Section delay={0.3}>
                 <RowWithCheckboxInput idSelect="salarySelect" id="salary" onChange={handleChangeSalary} value={salary}
                                       type="number" placeholder="Введите доход" text="Ввдедите ваш ежемесячный доход"
-                                      display={undefined} onChangeSelect={handleChangeSalSelect} />
+                                      onChangeSelect={handleChangeSalSelect} />
             </Section>
             <Section delay={0.5}>
                 <RowWithCheckboxInput idSelect="saveSelect" id="save" onChange={handleChangeSave} value={save}
                                       type="number" placeholder="Ввдедите сумму"
-                                      text="Сколько денег вы готовы откладывать ежемесячно?" display={undefined}
+                                      text="Сколько денег вы готовы откладывать ежемесячно?"
                                       onChangeSelect={handleChangeSavSelect} />
             </Section>
             <Section delay={0.7}>

@@ -1,202 +1,289 @@
 import {Box, Button, Container} from "@chakra-ui/react";
 import Section from "../components/section";
 import RowWithCheckboxInput from "../components/rowWithInput";
-import {useState} from "react";
-import Result from "../components/result";
-import But from "../components/but";
-import Noman from "../components/noman";
-import {months1, months2} from "../lib/months";
+import {useEffect, useState} from "react";
 import axios from "axios";
+import {months1, months2} from '../lib/months'
+import Result from "../components/result";
+import But from '../components/but'
+import Noman from '../components/noman'
+
+type Field = {
+    idSelect: string
+    id: keyof State
+    placeholder: string
+    delay: number
+    text: string
+}
+
+const fields: Field[] = [
+    {
+        idSelect: 'sumSelect',
+        id: 'sum',
+        placeholder: 'Введите сумму',
+        delay: 0.1,
+        text: 'Введите сумму, которую хотите накопить'
+    },
+    {
+        idSelect: 'salarySelect',
+        id: 'salary',
+        placeholder: 'Введите доход',
+        delay: 0.3,
+        text: 'Введите ваш ежемесячный доход'
+    },
+    {
+        idSelect: 'saveSelect',
+        id: 'save',
+        placeholder: 'Введите сумму',
+        delay: 0.5,
+        text: 'Сколько денег вы готовы откладывать ежемесячно?'
+    }
+]
+
+type State = {
+    sum: {
+        value: string,
+        valute: string
+    }
+    salary: {
+        value: string,
+        valute: string
+    }
+    save: {
+        value: string,
+        valute: string
+    }
+}
+
+type Valute = {
+    Value: number
+}
+
+/* eslint-disable no-unused-vars */
+type Valutes = {
+    [key in string]: Valute
+}
+
+type Result = {
+    res: number | undefined
+    month: string
+}
 
 const Saveup = () => {
 
-    const [sumForSaveup, setSumForSaveup] = useState("")
-    const [salary, setSalary] = useState("")
-    const [save, setSave] = useState("")
-    const [displayBut, setDisplayBut] = useState('none')
-    const [displayNoman, setDisplayNoman] = useState('none')
-    const [displayResult, setDisplayResult] = useState('none')
-    const [result, setResult] = useState(0)
-    const [ideal, setIdeal] = useState(0)
-    const [months, setMonths] = useState('')
-    const [monthsRes, setMonthsRes] = useState('')
-    const [convert, setConvert] = useState(0)
-    const [convertSalary, setConvertSalary] = useState(0)
-    const [convertSave, setConvertSave] = useState(0)
-    const [sumValute, setSumValute] = useState('RUB')
-    const [salValute, setSalValute] = useState('RUB')
-    const [savValute, setSavValute] = useState('RUB')
+    const [state, setState] = useState<State>({
+        sum: {
+            value: '',
+            valute: 'RUB'
+        },
+        salary: {
+            value: '',
+            valute: 'RUB'
+        },
+        save: {
+            value: '',
+            valute: 'RUB'
+        }
+    })
+    const [result, setResult] = useState<Result>({
+        res: undefined,
+        month: ''
+    })
+    const [but, setBut] = useState<Result>({
+        res: undefined,
+        month: ''
+    })
+    const [valute, setValute] = useState<Valutes>({})
+    const [noman, setNoman] = useState(false)
 
-    let valute = {}
-
-    const converter = () => {
-        axios.get("https://www.cbr-xml-daily.ru/daily_json.js")
+    /* eslint-disable react-hooks/exhaustive-deps*/
+    useEffect(() => {
+        axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
             .then((res) => {
-                valute = res.data.Valute
+                setValute(res.data.Valute)
+                console.log(valute)
             })
             .catch(e => console.log(e))
+    }, [])
+
+    const handleFieldValue = (value: string, key: keyof State) => {
+        if (result.res !== undefined || but.res !== undefined) {
+            setResult ({
+                res: undefined,
+                month: ''
+            })
+            setBut({
+                res: undefined,
+                month: ''
+            })
+        }
+        console.log('work')
+        setState(prevState => ({
+            ...prevState,
+            [key]: {
+                ...prevState[key],
+                value
+            },
+        }))
     }
 
-    converter()
-
-    const handleResetDisplay = () => {
-        setDisplayNoman('none')
-        setDisplayBut('none')
-        setDisplayResult('none')
+    const handleFieldValute = (valute: string, key: keyof State) => {
+        console.log('work2')
+        setState(prevState => ({
+            ...prevState,
+            [key]: {
+                ...prevState[key],
+                valute
+            },
+        }))
     }
 
-    const handleReset = () => {
-        handleResetDisplay()
-        setSumForSaveup('')
-        setSalary('')
-        setSave('')
-    }
-
-    const handleChangeSum = (evt) => {
-        setSumForSaveup(evt.target.value)
-        handleResetDisplay()
-    }
-
-    const handleChangeSalary = (evt) => {
-        setSalary(evt.target.value)
-        handleResetDisplay()
-    }
-
-    const handleChangeSave = (evt) => {
-        setSave(evt.target.value)
-        handleResetDisplay()
-    }
-
-    const handleChangeSumSelect = (evt) => {
-        setSumValute(evt.target.value)
-        handleResetDisplay()
-    }
-
-    const handleChangeSalSelect = (evt) => {
-        setSalValute(evt.target.value)
-        handleResetDisplay()
-    }
-
-    const handleChangeSavSelect = (evt) => {
-        setSavValute(evt.target.value)
-        handleResetDisplay()
+    const handleResetFields = () => {
+        setState({
+            sum: {
+                value: '',
+                valute: 'RUB'
+            },
+            salary: {
+                value: '',
+                valute: 'RUB'
+            },
+            save: {
+                value: '',
+                valute: 'RUB'
+            }
+        })
+        setResult({
+            res: undefined,
+            month: ''
+        })
+        setBut({
+            res: undefined,
+            month: ''
+        })
     }
 
     const handleCalculate = () => {
+        let cSum = 0
+        let cSal = 0
+        let cSav = 0
+        let monthRes = ''
+        let monthIdeal = ''
 
-        handleResetDisplay()
-        handleConverter()
-
-        const sum: number = convert
-        const sal: number = convertSalary
-        const sav: number = convertSave
-
-        const res: number = sum / sav
-        const ide: number = sal / 10
-        const ideRes: number = sum / ide
-
-        if (sum > sal * 100 && sum > sav * 100) {
-            setDisplayNoman('flex')
-        } else if (salary !== '' && sumForSaveup !== '' && parseFloat(save) < ide) {
-            console.log(ide)
-            console.log(parseFloat(save))
-            setResult(Math.ceil(res))
-            setIdeal(Math.ceil(ideRes))
-            changeMonths()
-            changeMonthsRes()
-            setDisplayNoman('none')
-            setDisplayResult('flex')
-            setDisplayBut('flex')
-        } else if (salary !== '' && sumForSaveup !== '' && parseFloat(save) >= ide) {
-            setResult(Math.ceil(res))
-            changeMonthsRes()
-            setDisplayBut('none')
-            setDisplayResult('flex')
+        if (state.sum.valute !== 'RUB') {
+            cSum = valute[state.sum.valute].Value * +state.sum.value
         } else {
-            setDisplayResult('none')
-            setDisplayBut('none')
+            cSum = +state.sum.value
         }
-
-    }
-
-    const handleConverter = () => {
-        if (sumValute !== 'RUB') {
-            setConvert(+sumForSaveup * valute[sumValute].Value)
+        if (state.salary.valute !== 'RUB') {
+            cSal = valute[state.salary.valute].Value * +state.salary.value
         } else {
-            setConvert(+sumForSaveup)
+            cSal = +state.salary.value
         }
-        if (salValute !== 'RUB') {
-            setConvertSalary(+salary * valute[salValute].Value)
+        if (state.save.valute !== 'RUB') {
+            cSav = valute[state.save.valute].Value * +state.save.value
         } else {
-            setConvertSalary(+salary)
+            cSav = +state.save.value
         }
-        if (savValute !== 'RUB') {
-            setConvertSave(+save * valute[savValute].Value)
+
+        if (cSum > cSal * 100) {
+            setNoman(true)
         } else {
-            setConvertSave(+save)
+            setNoman(false)
         }
-    }
 
-    const changeMonths = () => {
-        for (let i = 0; i < months1.length; i++) {
-            if (months1[i] === ideal) {
-                setMonths('месяц')
-                return;
-            }
-        }
-        for (let i = 0; i < months2.length; i++) {
-            if (months2[i] === ideal) {
-                setMonths('месяцa')
-                return;
-            }
-        }
-        setMonths('месяцев')
-    }
+        let ideal: number = cSal * 0.1
 
-    const changeMonthsRes = () => {
-        for (let i = 0; i < months1.length; i++) {
-            if (months1[i] === result) {
-                setMonthsRes('месяц')
-                return;
+        if (cSav < cSal * 0.1) {
+            const months = () => {
+                for (let i = 0; i < months1.length; i++) {
+                    if (months1[i] === Math.ceil(cSum / ideal)) {
+                        monthIdeal = 'месяц'
+                        return;
+                    }
+                }
+                for (let i = 0; i < months2.length; i++) {
+                    if (months2[i] === Math.ceil(cSum / ideal)) {
+                        monthIdeal = 'месяца'
+                        return;
+                    }
+                }
+                monthIdeal = 'месяцев'
             }
+
+            months()
+
+            setBut({
+                res: Math.ceil(cSum / ideal),
+                month: monthIdeal
+            })
+        } else {
+            setBut({
+                res: undefined,
+                month: ''
+            })
         }
-        for (let i = 0; i < months2.length; i++) {
-            if (months2[i] === result) {
-                setMonthsRes('месяцa')
-                return;
+
+        const months = () => {
+            for (let i = 0; i < months1.length; i++) {
+                if (months1[i] === Math.ceil(cSum / cSav)) {
+                    monthRes = 'месяц'
+                    return;
+                }
             }
+            for (let i = 0; i < months2.length; i++) {
+                if (months2[i] === Math.ceil(cSum / cSav)) {
+                    monthRes = 'месяца'
+                    return;
+                }
+            }
+            monthRes = 'месяцев'
         }
-        setMonthsRes('месяцев')
+        months()
+
+        setResult({
+            res: Math.ceil(cSum / cSav),
+            month: monthRes
+        })
     }
 
     return (
         <Container alignItems="center">
-            <Section delay={0.1}>
-                <RowWithCheckboxInput idSelect="sumSelect" id="sum" value={sumForSaveup} onChange={handleChangeSum}
-                                      type="number" placeholder="Введите сумму"
-                                      text="Введите сумму, которую хотите накопить"
-                                      onChangeSelect={handleChangeSumSelect} />
-            </Section>
-            <Section delay={0.3}>
-                <RowWithCheckboxInput idSelect="salarySelect" id="salary" onChange={handleChangeSalary} value={salary}
-                                      type="number" placeholder="Введите доход" text="Ввдедите ваш ежемесячный доход"
-                                      onChangeSelect={handleChangeSalSelect} />
-            </Section>
-            <Section delay={0.5}>
-                <RowWithCheckboxInput idSelect="saveSelect" id="save" onChange={handleChangeSave} value={save}
-                                      type="number" placeholder="Ввдедите сумму"
-                                      text="Сколько денег вы готовы откладывать ежемесячно?"
-                                      onChangeSelect={handleChangeSavSelect} />
-            </Section>
+            {fields.map(field => {
+                return (
+                    <Section delay={field.delay} key={field.id}>
+                        <RowWithCheckboxInput
+                            id={field.id}
+                            idSelect={field.idSelect}
+                            value={state[field.id].value}
+                            valuteValue={state[field.id].valute}
+                            onChange={(e) => {
+                                handleFieldValue(e.target.value, field.id)
+                            }}
+                            onChangeSelect={(e) => {
+                                handleFieldValute(e.target.value, field.id)
+                            }}
+                            type='number'
+                            placeholder={field.placeholder}
+                            text={field.text} />
+                    </Section>
+                )
+            })}
             <Section delay={0.7}>
                 <Box display="flex" flexDirection="row" w="full" justifyContent="center">
                     <Button mr={9} colorScheme="teal" onClick={handleCalculate}>Расчитать</Button>
-                    <Button colorScheme="red" onClick={handleReset}>Очистить</Button>
+                    <Button colorScheme="red" onClick={handleResetFields}>Очистить</Button>
                 </Box>
             </Section>
-            <Result display={displayResult} months={monthsRes}>{result}</Result>
-            <But months={months} display={displayBut}>{ideal}</But>
-            <Noman display={displayNoman} />
+            {!!result.res && !noman && (
+                <Result months={result.month}>{result.res}</Result>
+            )}
+            {!!but.res && !noman && (
+                <But months={but.month}>{but.res}</But>
+            )}
+            {!!noman && (
+                <Noman />
+            )}
         </Container>
     )
 };

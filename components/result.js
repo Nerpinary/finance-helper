@@ -1,16 +1,16 @@
 import {Box, Heading, useColorModeValue} from "@chakra-ui/react";
 
-const Result = ({children, display, months}) => (
+const Result = ({children, months}) => (
         <Box
             p={5}
             borderRadius={20}
             bg={useColorModeValue("whiteAlpha.600", "whiteAlpha.200")}
-            display={display}
             w="full"
             justifyContent="center"
             alignItems="center"
             mt={10}
             flexDirection="column"
+            textAlign='center'
         >
             <Box>
             <p>Вы накопите эту сумму за</p>

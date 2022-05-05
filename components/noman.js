@@ -1,11 +1,11 @@
 import {Box, Heading} from "@chakra-ui/react";
 
-const Noman = ({display}) => (
+const Noman = () => (
     <Box
-        display={display}
         w="full"
         justifyContent="center"
         alignItems="center"
+        textAlign='center'
         mt={8}
         flexDirection="column"
     >

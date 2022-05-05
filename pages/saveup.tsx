@@ -186,7 +186,7 @@ const Saveup = () => {
             cSav = +state.save.value
         }
 
-        if (cSum > cSal * 100) {
+        if (cSum > cSal * 100 || cSum > cSav * 1000) {
             setNoman(true)
         } else {
             setNoman(false)

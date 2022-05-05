@@ -1,15 +1,14 @@
+import {useEffect, useState} from "react";
 import {Box, Button, Container} from "@chakra-ui/react";
+import axios from "axios";
 import Section from "../components/section";
 import RowWithCheckboxInput from "../components/rowWithInput";
-import {useEffect, useState} from "react";
-import axios from "axios";
 import {months1, months2} from '../lib/months'
 import Result from "../components/result";
 import But from '../components/but'
 import Noman from '../components/noman'
 
 type Field = {
-    idSelect: string
     id: keyof State
     placeholder: string
     delay: number
@@ -18,21 +17,18 @@ type Field = {
 
 const fields: Field[] = [
     {
-        idSelect: 'sumSelect',
         id: 'sum',
         placeholder: 'Введите сумму',
         delay: 0.1,
         text: 'Введите сумму, которую хотите накопить'
     },
     {
-        idSelect: 'salarySelect',
         id: 'salary',
         placeholder: 'Введите доход',
         delay: 0.3,
         text: 'Введите ваш ежемесячный доход'
     },
     {
-        idSelect: 'saveSelect',
         id: 'save',
         placeholder: 'Введите сумму',
         delay: 0.5,
@@ -40,28 +36,23 @@ const fields: Field[] = [
     }
 ]
 
+type FieldNames = 'sum' | 'salary' | 'save'
+
+/* eslint-disable no-unused-vars */
 type State = {
-    sum: {
-        value: string,
-        valute: string
-    }
-    salary: {
-        value: string,
-        valute: string
-    }
-    save: {
+    [key in FieldNames]: {
         value: string,
         valute: string
     }
 }
 
-type Valute = {
+type Currency = {
     Value: number
 }
 
 /* eslint-disable no-unused-vars */
-type Valutes = {
-    [key in string]: Valute
+type Currencies = {
+    [key in string]: Currency
 }
 
 type Result = {
@@ -93,15 +84,15 @@ const Saveup = () => {
         res: undefined,
         month: ''
     })
-    const [valute, setValute] = useState<Valutes>({})
+    const [currency, setCurrency] = useState<Currencies>({})
     const [noman, setNoman] = useState(false)
 
     /* eslint-disable react-hooks/exhaustive-deps*/
     useEffect(() => {
         axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
             .then((res) => {
-                setValute(res.data.Valute)
-                console.log(valute)
+                setCurrency(res.data.Valute)
+                console.log(currency)
             })
             .catch(e => console.log(e))
     }, [])
@@ -127,40 +118,36 @@ const Saveup = () => {
         }))
     }
 
-    const handleFieldValute = (valute: string, key: keyof State) => {
+    const handleFieldValute = (currency: string, key: keyof State) => {
         console.log('work2')
         setState(prevState => ({
             ...prevState,
             [key]: {
                 ...prevState[key],
-                valute
+                currency
             },
         }))
     }
 
+    const initialItemState = {
+        value: '',
+        valute: 'RUB'
+    }
+
+    const initialResState = {
+        res: undefined,
+        month: ''
+    }
+
     const handleResetFields = () => {
+
         setState({
-            sum: {
-                value: '',
-                valute: 'RUB'
-            },
-            salary: {
-                value: '',
-                valute: 'RUB'
-            },
-            save: {
-                value: '',
-                valute: 'RUB'
-            }
+            sum: initialItemState,
+            salary: initialItemState,
+            save: initialItemState
         })
-        setResult({
-            res: undefined,
-            month: ''
-        })
-        setBut({
-            res: undefined,
-            month: ''
-        })
+        setResult(initialResState)
+        setBut(initialResState)
     }
 
     const handleCalculate = () => {
@@ -171,17 +158,17 @@ const Saveup = () => {
         let monthIdeal = ''
 
         if (state.sum.valute !== 'RUB') {
-            cSum = valute[state.sum.valute].Value * +state.sum.value
+            cSum = currency[state.sum.valute].Value * +state.sum.value
         } else {
             cSum = +state.sum.value
         }
         if (state.salary.valute !== 'RUB') {
-            cSal = valute[state.salary.valute].Value * +state.salary.value
+            cSal = currency[state.salary.valute].Value * +state.salary.value
         } else {
             cSal = +state.salary.value
         }
         if (state.save.valute !== 'RUB') {
-            cSav = valute[state.save.valute].Value * +state.save.value
+            cSav = currency[state.save.valute].Value * +state.save.value
         } else {
             cSav = +state.save.value
         }
@@ -254,7 +241,6 @@ const Saveup = () => {
                     <Section delay={field.delay} key={field.id}>
                         <RowWithCheckboxInput
                             id={field.id}
-                            idSelect={field.idSelect}
                             value={state[field.id].value}
                             valuteValue={state[field.id].valute}
                             onChange={(e) => {

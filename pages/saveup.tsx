@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {Box, Button, Container} from "@chakra-ui/react";
 import axios from "axios";
 import Section from "../components/section";
-import RowWithCheckboxInput from "../components/rowWithInput";
+import RowWithSelect from "../components/rowWithSelect";
 import Result from "../components/result";
 import But from '../components/but'
 import Noman from '../components/noman'
@@ -139,9 +139,6 @@ const Saveup = () => {
         let monthRes = ''
         let monthIdeal = ''
 
-        console.log(Object.entries(state))
-        console.log(Object.entries(state)[0][1].currency)
-
         if (state.sum.currency !== 'RUB') {
             csum = currency[state.sum.currency].Value * +state.sum.value
         } else {
@@ -183,7 +180,7 @@ const Saveup = () => {
                 {fields.map(field => {
                     return (
                         <Section delay={field.delay} key={field.id}>
-                            <RowWithCheckboxInput
+                            <RowWithSelect
                                 id={field.id}
                                 value={state[field.id].value}
                                 valuteValue={state[field.id].currency}
@@ -206,7 +203,7 @@ const Saveup = () => {
                     </Box>
                 </Section>
                 {!!result && !noman && (
-                    <Result>{result}</Result>
+                    <Result creditText='' resultCredit={undefined} text='Вы накопите эту сумму за'>{result}</Result>
                 )}
                 {!!but && !noman && (
                     <But>{but}</But>

@@ -1,6 +1,6 @@
 import {Box, Heading, useColorModeValue} from "@chakra-ui/react";
 
-const Result = ({children}) => (
+const Result = ({resultCredit, text, creditText, children}) => (
         <Box
             p={5}
             borderRadius={20}
@@ -13,11 +13,19 @@ const Result = ({children}) => (
             textAlign='center'
         >
             <Box>
-            <p>Вы накопите эту сумму за</p>
+            <p>{text}</p>
             </Box>
             <Heading display="inline" as="h3" align="center">
                 {children}
             </Heading>
+            {!! resultCredit &&
+                <Box>
+                    <p>{creditText}</p>
+                    <Heading display="inline" as="h3" align="center">
+                        {resultCredit}
+                    </Heading>
+                </Box>
+            }
         </Box>
 );
 

@@ -1,23 +1,67 @@
+import {useEffect, useState} from "react";
+import axios from "axios";
 import {
     Container,
     Box,
     Heading,
     useColorModeValue,
-    SimpleGrid
+    SimpleGrid,
+    GridItem
 } from "@chakra-ui/react";
 import Section from "../components/section";
 import Layout from "../components/layouts/article";
 import {OptionGridItem} from "../components/grid-item";
+import Currency from '../components/currency'
 import thumbSaveup from "../public/images/saveup.jpg";
 import thumbCredit from "../public/images/credit.jpg";
 
+
+type Currency = {
+    Value: number
+}
+
+/* eslint-disable no-unused-vars */
+type Currencies = {
+    [key in string]: Currency
+}
+
 const Page = () => {
+    const [currency, setCurrency] = useState<Currencies>({})
+
+    /* eslint-disable react-hooks/exhaustive-deps*/
+    useEffect(() => {
+        axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
+            .then((res) => {
+                setCurrency(res.data.Valute)
+                console.log(currency)
+            })
+            .catch(e => console.log(e))
+    }, [])
+
+    /* eslint-disable react-hooks/rules-of-hooks*/
+    // @ts-ignore
     return (
         <Layout title={''}>
             <Container>
                 <Box borderRadius="lg" bg={useColorModeValue('whiteAlpha.500', 'whiteAlpha.200')} p={3} mb={6} textAlign="center">
-                    Привет! добро пожаловать в ваш Финансовый ассистент
+                    <Heading as='h1' fontWeight={500} fontSize={16}>Привет! добро пожаловать в ваш Финансовый ассистент</Heading>
                 </Box>
+
+                {!! currency.USD && !!currency.EUR &&(
+                    <Box borderRadius="lg" bg={useColorModeValue('green.200', 'green.900')} p={3} mb={6} textAlign="center">
+                        <Heading fontWeight={500} fontSize={20}>Актуальные курсы валют</Heading>
+                        <Section delay={0.1}>
+                            <SimpleGrid mt={2} columns={2} spacing={6}>
+                                <GridItem>
+                                    <Currency symbol='&#36;'>{Math.floor(currency.USD.Value * 100) / 100}</Currency>
+                                </GridItem>
+                                <GridItem>
+                                    <Currency symbol='&#8364;'>{Math.floor(currency.EUR.Value * 100) / 100}</Currency>
+                                </GridItem>
+                            </SimpleGrid>
+                        </Section>
+                    </Box>
+                )}
 
                 <Section delay={0.1}>
                     <Heading as="h2" variant="pade-title" textAlign="center">

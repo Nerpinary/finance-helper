@@ -7,7 +7,6 @@ const Dollar = () => {
         <Box
             className="dollar"
             m="auto"
-            at={['-20px', '-60px', '-120px']}
             mb={['-40px', '-140px', '-240px']}
             mt="20px"
             w={[280, 480, 640]}

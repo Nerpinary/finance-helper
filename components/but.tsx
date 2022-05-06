@@ -13,13 +13,13 @@ const But = ({children}) => (
         bgColor='#319795'
         p={5}
     >
-        <Heading display="inline" as="h3" align="center">
+        <Heading display="inline" as="h3" textAlign="center">
             НО
         </Heading>
         <Box>
             <p>Если вы будете откладывать 10% от своего дохода, вы накопите всего за</p>
         </Box>
-        <Heading display="inline" as="h3" align="center">
+        <Heading display="inline" as="h3" textAlign="center">
             {children}
         </Heading>
     </Box>

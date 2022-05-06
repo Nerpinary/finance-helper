@@ -14,7 +14,7 @@ import {OptionGridItem} from "../components/grid-item";
 import Currency from '../components/currency'
 import thumbSaveup from "../public/images/saveup.jpg";
 import thumbCredit from "../public/images/credit.jpg";
-
+import thumbChill from '../public/images/chill.jpg'
 
 type Currency = {
     Value: number
@@ -78,6 +78,11 @@ const Page = () => {
                         <Section>
                             <OptionGridItem id="credit" title="Кредит" thumbnail={thumbCredit}>
                                 Как много я переплачу за кредит?
+                            </OptionGridItem>
+                        </Section>
+                        <Section>
+                            <OptionGridItem id="chill" title="Отдохни" thumbnail={thumbChill}>
+                                Отдохни и понаблюдай как со временем на твой счет падают деньги
                             </OptionGridItem>
                         </Section>
                     </SimpleGrid>

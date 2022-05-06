@@ -70,7 +70,6 @@ const Credit = () => {
                 value
             },
         }))
-        console.log(state)
     }
 
     const handleResetFields = () => {

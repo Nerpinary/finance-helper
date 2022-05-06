@@ -16,7 +16,7 @@ export const GridItem = ({children, href, title, thumbnail}) => (
 )
 
 export const OptionGridItem = ({children, id, title, thumbnail}) => (
-    <Box w="100%" alignItems="center">
+    <Box w="100%" textAlign="center">
         <NextLink href={`/${id}`} passHref>
             <LinkBox cursor="pointer">
                 <Image src={thumbnail} alt={title} className="grid-item-thumbnail" placeholder="blur" />

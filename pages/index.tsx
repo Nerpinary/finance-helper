@@ -32,8 +32,7 @@ const Page = () => {
     useEffect(() => {
         axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
             .then((res) => {
-                setCurrency(res.data.Valute)
-                console.log(currency)
+                setCurrency(prevState => res.data.Valute)
             })
             .catch(e => console.log(e))
     }, [])

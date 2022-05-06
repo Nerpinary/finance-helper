@@ -87,8 +87,8 @@ const Credit = () => {
         let a = p * Math.pow((1 + p), +state.term.value) / (Math.pow((1 + p), +state.term.value) - 1)
         a = (Math.ceil(a * 10000)) / 10000
         let mp = a * +state.sum.value
-        let total = getCountString(+state.term.value * mp, ['рубль', 'рубля', 'рублей'])
-        let over = getCountString(+state.term.value * mp - +state.sum.value, ['рубль', 'рубля', 'рублей'])
+        let total = getCountString((Math.floor(+state.term.value * mp * 100)) / 100 , ['рубль', 'рубля', 'рублей'])
+        let over = getCountString((Math.floor((+state.term.value * mp - +state.sum.value) * 100)) / 100, ['рубль', 'рубля', 'рублей'])
         setResult(total)
         setResultCredit(over)
     }

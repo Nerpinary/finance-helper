@@ -42,7 +42,7 @@ type FieldNames = 'sum' | 'salary' | 'save'
 type State = {
     [key in FieldNames]: {
         value: string,
-        valute: string
+        currency: string
     }
 }
 
@@ -65,15 +65,15 @@ const Saveup = () => {
     const [state, setState] = useState<State>({
         sum: {
             value: '',
-            valute: 'RUB'
+            currency: 'RUB'
         },
         salary: {
             value: '',
-            valute: 'RUB'
+            currency: 'RUB'
         },
         save: {
             value: '',
-            valute: 'RUB'
+            currency: 'RUB'
         }
     })
     const [result, setResult] = useState<Result>({
@@ -97,18 +97,25 @@ const Saveup = () => {
             .catch(e => console.log(e))
     }, [])
 
-    const handleFieldValue = (value: string, key: keyof State) => {
+    const initialItemState = {
+        value: '',
+        currency: 'RUB'
+    }
+
+    const initialResState = {
+        res: undefined,
+        month: ''
+    }
+
+    const handleResReset = () => {
         if (result.res !== undefined || but.res !== undefined) {
-            setResult ({
-                res: undefined,
-                month: ''
-            })
-            setBut({
-                res: undefined,
-                month: ''
-            })
+            setResult (initialResState)
+            setBut(initialResState)
         }
-        console.log('work')
+    }
+
+    const handleFieldValue = (value: string, key: keyof State) => {
+        handleResReset()
         setState(prevState => ({
             ...prevState,
             [key]: {
@@ -119,7 +126,7 @@ const Saveup = () => {
     }
 
     const handleFieldValute = (currency: string, key: keyof State) => {
-        console.log('work2')
+        handleResReset()
         setState(prevState => ({
             ...prevState,
             [key]: {
@@ -127,16 +134,6 @@ const Saveup = () => {
                 currency
             },
         }))
-    }
-
-    const initialItemState = {
-        value: '',
-        valute: 'RUB'
-    }
-
-    const initialResState = {
-        res: undefined,
-        month: ''
     }
 
     const handleResetFields = () => {
@@ -151,46 +148,49 @@ const Saveup = () => {
     }
 
     const handleCalculate = () => {
-        let cSum = 0
-        let cSal = 0
-        let cSav = 0
+        let csum = 0
+        let csalary = 0
+        let csave = 0
         let monthRes = ''
         let monthIdeal = ''
 
-        if (state.sum.valute !== 'RUB') {
-            cSum = currency[state.sum.valute].Value * +state.sum.value
+        console.log(Object.entries(state))
+        console.log(Object.entries(state)[0][1].currency)
+
+        if (state.sum.currency !== 'RUB') {
+            csum = currency[state.sum.currency].Value * +state.sum.value
         } else {
-            cSum = +state.sum.value
+            csum = +state.sum.value
         }
-        if (state.salary.valute !== 'RUB') {
-            cSal = currency[state.salary.valute].Value * +state.salary.value
+        if (state.salary.currency !== 'RUB') {
+            csalary = currency[state.salary.currency].Value * +state.salary.value
         } else {
-            cSal = +state.salary.value
+            csalary = +state.salary.value
         }
-        if (state.save.valute !== 'RUB') {
-            cSav = currency[state.save.valute].Value * +state.save.value
+        if (state.save.currency !== 'RUB') {
+            csave = currency[state.save.currency].Value * +state.save.value
         } else {
-            cSav = +state.save.value
+            csave = +state.save.value
         }
 
-        if (cSum > cSal * 100 || cSum > cSav * 1000) {
+        if (csum > csalary * 100 || csum > csave * 1000) {
             setNoman(true)
         } else {
             setNoman(false)
         }
 
-        let ideal: number = cSal * 0.1
+        let ideal: number = csalary * 0.1
 
-        if (cSav < cSal * 0.1) {
+        if (csave < csalary * 0.1) {
             const months = () => {
                 for (let i = 0; i < months1.length; i++) {
-                    if (months1[i] === Math.ceil(cSum / ideal)) {
+                    if (months1[i] === Math.ceil(csum / ideal)) {
                         monthIdeal = 'месяц'
                         return;
                     }
                 }
                 for (let i = 0; i < months2.length; i++) {
-                    if (months2[i] === Math.ceil(cSum / ideal)) {
+                    if (months2[i] === Math.ceil(csum / ideal)) {
                         monthIdeal = 'месяца'
                         return;
                     }
@@ -201,7 +201,7 @@ const Saveup = () => {
             months()
 
             setBut({
-                res: Math.ceil(cSum / ideal),
+                res: Math.ceil(csum / ideal),
                 month: monthIdeal
             })
         } else {
@@ -213,13 +213,13 @@ const Saveup = () => {
 
         const months = () => {
             for (let i = 0; i < months1.length; i++) {
-                if (months1[i] === Math.ceil(cSum / cSav)) {
+                if (months1[i] === Math.ceil(csum / csave)) {
                     monthRes = 'месяц'
                     return;
                 }
             }
             for (let i = 0; i < months2.length; i++) {
-                if (months2[i] === Math.ceil(cSum / cSav)) {
+                if (months2[i] === Math.ceil(csum / csave)) {
                     monthRes = 'месяца'
                     return;
                 }
@@ -229,7 +229,7 @@ const Saveup = () => {
         months()
 
         setResult({
-            res: Math.ceil(cSum / cSav),
+            res: Math.ceil(csum / csave),
             month: monthRes
         })
     }
@@ -242,7 +242,7 @@ const Saveup = () => {
                         <RowWithCheckboxInput
                             id={field.id}
                             value={state[field.id].value}
-                            valuteValue={state[field.id].valute}
+                            valuteValue={state[field.id].currency}
                             onChange={(e) => {
                                 handleFieldValue(e.target.value, field.id)
                             }}

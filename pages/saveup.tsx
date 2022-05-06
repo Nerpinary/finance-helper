@@ -3,10 +3,10 @@ import {Box, Button, Container} from "@chakra-ui/react";
 import axios from "axios";
 import Section from "../components/section";
 import RowWithCheckboxInput from "../components/rowWithInput";
-import {months1, months2} from '../lib/months'
 import Result from "../components/result";
 import But from '../components/but'
 import Noman from '../components/noman'
+import {getCountString} from "../utils/utils";
 
 type Field = {
     id: keyof State
@@ -55,10 +55,7 @@ type Currencies = {
     [key in string]: Currency
 }
 
-type Result = {
-    res: number | undefined
-    month: string
-}
+type Result = string | undefined
 
 const Saveup = () => {
 
@@ -76,14 +73,8 @@ const Saveup = () => {
             currency: 'RUB'
         }
     })
-    const [result, setResult] = useState<Result>({
-        res: undefined,
-        month: ''
-    })
-    const [but, setBut] = useState<Result>({
-        res: undefined,
-        month: ''
-    })
+    const [result, setResult] = useState<Result>(undefined)
+    const [but, setBut] = useState<Result>(undefined)
     const [currency, setCurrency] = useState<Currencies>({})
     const [noman, setNoman] = useState(false)
 
@@ -102,15 +93,10 @@ const Saveup = () => {
         currency: 'RUB'
     }
 
-    const initialResState = {
-        res: undefined,
-        month: ''
-    }
-
     const handleResReset = () => {
-        if (result.res !== undefined || but.res !== undefined) {
-            setResult (initialResState)
-            setBut(initialResState)
+        if (result !== undefined || but !== undefined) {
+            setResult (undefined)
+            setBut(undefined)
         }
     }
 
@@ -143,8 +129,7 @@ const Saveup = () => {
             salary: initialItemState,
             save: initialItemState
         })
-        setResult(initialResState)
-        setBut(initialResState)
+        handleResReset()
     }
 
     const handleCalculate = () => {
@@ -182,56 +167,14 @@ const Saveup = () => {
         let ideal: number = csalary * 0.1
 
         if (csave < csalary * 0.1) {
-            const months = () => {
-                for (let i = 0; i < months1.length; i++) {
-                    if (months1[i] === Math.ceil(csum / ideal)) {
-                        monthIdeal = 'месяц'
-                        return;
-                    }
-                }
-                for (let i = 0; i < months2.length; i++) {
-                    if (months2[i] === Math.ceil(csum / ideal)) {
-                        monthIdeal = 'месяца'
-                        return;
-                    }
-                }
-                monthIdeal = 'месяцев'
-            }
-
-            months()
-
-            setBut({
-                res: Math.ceil(csum / ideal),
-                month: monthIdeal
-            })
+            monthIdeal = getCountString(Math.ceil(csum / ideal), ['месяц', 'месяца', 'месяцев'])
+            setBut(monthIdeal)
         } else {
-            setBut({
-                res: undefined,
-                month: ''
-            })
+            setBut(undefined)
         }
 
-        const months = () => {
-            for (let i = 0; i < months1.length; i++) {
-                if (months1[i] === Math.ceil(csum / csave)) {
-                    monthRes = 'месяц'
-                    return;
-                }
-            }
-            for (let i = 0; i < months2.length; i++) {
-                if (months2[i] === Math.ceil(csum / csave)) {
-                    monthRes = 'месяца'
-                    return;
-                }
-            }
-            monthRes = 'месяцев'
-        }
-        months()
-
-        setResult({
-            res: Math.ceil(csum / csave),
-            month: monthRes
-        })
+        monthRes = getCountString(Math.ceil(csum / csave), ['месяц', 'месяца', 'месяцев'])
+        setResult(monthRes)
     }
 
     return (
@@ -261,11 +204,11 @@ const Saveup = () => {
                     <Button colorScheme="red" onClick={handleResetFields}>Очистить</Button>
                 </Box>
             </Section>
-            {!!result.res && !noman && (
-                <Result months={result.month}>{result.res}</Result>
+            {!!result && !noman && (
+                <Result>{result}</Result>
             )}
-            {!!but.res && !noman && (
-                <But months={but.month}>{but.res}</But>
+            {!!but && !noman && (
+                <But>{but}</But>
             )}
             {!!noman && (
                 <Noman />

@@ -1,6 +1,6 @@
 import {Box, Heading, useColorModeValue} from "@chakra-ui/react";
 
-const Result = ({children, months}) => (
+const Result = ({children}) => (
         <Box
             p={5}
             borderRadius={20}
@@ -18,7 +18,6 @@ const Result = ({children, months}) => (
             <Heading display="inline" as="h3" align="center">
                 {children}
             </Heading>
-            <p>{months}</p>
         </Box>
 );
 

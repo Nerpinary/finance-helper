@@ -1,6 +1,6 @@
 import {Box, Heading} from "@chakra-ui/react";
 
-const But = ({children, months}) => (
+const But = ({children}) => (
     <Box
         bg="orange"
         w="full"
@@ -22,7 +22,6 @@ const But = ({children, months}) => (
         <Heading display="inline" as="h3" align="center">
             {children}
         </Heading>
-        <p>{months}</p>
     </Box>
 )
 

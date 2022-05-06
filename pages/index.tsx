@@ -40,7 +40,7 @@ const Page = () => {
     /* eslint-disable react-hooks/rules-of-hooks*/
     // @ts-ignore
     return (
-        <Layout title={''}>
+        <Layout title={'Home'}>
             <Container>
                 <Box borderRadius="lg" bg={useColorModeValue('whiteAlpha.500', 'whiteAlpha.200')} p={3} mb={6} textAlign="center">
                     <Heading as='h1' fontWeight={500} fontSize={16}>Привет! добро пожаловать в ваш Финансовый ассистент</Heading>

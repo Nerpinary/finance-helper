@@ -7,6 +7,7 @@ import Result from "../components/result";
 import But from '../components/but'
 import Noman from '../components/noman'
 import {getCountString} from "../utils/utils";
+import Layout from "../components/layouts/article";
 
 type Field = {
     id: keyof State
@@ -25,13 +26,13 @@ const fields: Field[] = [
     {
         id: 'salary',
         placeholder: 'Введите доход',
-        delay: 0.3,
+        delay: 0.2,
         text: 'Введите ваш ежемесячный доход'
     },
     {
         id: 'save',
         placeholder: 'Введите сумму',
-        delay: 0.5,
+        delay: 0.3,
         text: 'Сколько денег вы готовы откладывать ежемесячно?'
     }
 ]
@@ -83,7 +84,6 @@ const Saveup = () => {
         axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
             .then((res) => {
                 setCurrency(res.data.Valute)
-                console.log(currency)
             })
             .catch(e => console.log(e))
     }, [])
@@ -178,42 +178,44 @@ const Saveup = () => {
     }
 
     return (
-        <Container alignItems="center">
-            {fields.map(field => {
-                return (
-                    <Section delay={field.delay} key={field.id}>
-                        <RowWithCheckboxInput
-                            id={field.id}
-                            value={state[field.id].value}
-                            valuteValue={state[field.id].currency}
-                            onChange={(e) => {
-                                handleFieldValue(e.target.value, field.id)
-                            }}
-                            onChangeSelect={(e) => {
-                                handleFieldValute(e.target.value, field.id)
-                            }}
-                            type='number'
-                            placeholder={field.placeholder}
-                            text={field.text} />
-                    </Section>
-                )
-            })}
-            <Section delay={0.7}>
-                <Box display="flex" flexDirection="row" w="full" justifyContent="center">
-                    <Button mr={9} colorScheme="teal" onClick={handleCalculate}>Расчитать</Button>
-                    <Button colorScheme="red" onClick={handleResetFields}>Очистить</Button>
-                </Box>
-            </Section>
-            {!!result && !noman && (
-                <Result>{result}</Result>
-            )}
-            {!!but && !noman && (
-                <But>{but}</But>
-            )}
-            {!!noman && (
-                <Noman />
-            )}
-        </Container>
+        <Layout title='Save Up'>
+            <Container alignItems="center">
+                {fields.map(field => {
+                    return (
+                        <Section delay={field.delay} key={field.id}>
+                            <RowWithCheckboxInput
+                                id={field.id}
+                                value={state[field.id].value}
+                                valuteValue={state[field.id].currency}
+                                onChange={(e) => {
+                                    handleFieldValue(e.target.value, field.id)
+                                }}
+                                onChangeSelect={(e) => {
+                                    handleFieldValute(e.target.value, field.id)
+                                }}
+                                type='number'
+                                placeholder={field.placeholder}
+                                text={field.text} />
+                        </Section>
+                    )
+                })}
+                <Section delay={0.4}>
+                    <Box display="flex" flexDirection="row" w="full" justifyContent="center">
+                        <Button mr={9} colorScheme="teal" onClick={handleCalculate}>Расчитать</Button>
+                        <Button colorScheme="red" onClick={handleResetFields}>Очистить</Button>
+                    </Box>
+                </Section>
+                {!!result && !noman && (
+                    <Result>{result}</Result>
+                )}
+                {!!but && !noman && (
+                    <But>{but}</But>
+                )}
+                {!!noman && (
+                    <Noman />
+                )}
+            </Container>
+        </Layout>
     )
 };
 

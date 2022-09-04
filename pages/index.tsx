@@ -12,9 +12,9 @@ import Section from "../components/section";
 import Layout from "../components/layouts/article";
 import {OptionGridItem} from "../components/grid-item";
 import Currency from '../components/currency'
-import thumbSaveup from "../public/images/saveup.jpg";
-import thumbCredit from "../public/images/credit.jpg";
-import thumbChill from '../public/images/chill.jpg'
+import thumbSaveup from "../public/images/saveup.webp";
+import thumbCredit from "../public/images/credit.webp";
+import thumbChill from '../public/images/chill.webp'
 
 type Currency = {
     Value: number

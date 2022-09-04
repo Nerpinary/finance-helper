@@ -13,7 +13,7 @@ const Dollar = () => {
             h={[200, 400, 580]}
             position="relative"
         >
-            <Image w="full" src="/images/dollar.png" alt="dollar" />
+            <Image w="full" src="/images/dollar.webp" alt="dollar" />
         </Box>
     );
 };

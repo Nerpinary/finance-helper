@@ -19,7 +19,7 @@ const LogoBox = styled.span`
 `
 
 const Logo = () => {
-    const sibaIcon = `/images/sibaIcon${useColorModeValue('', '-dark')}.png`
+    const sibaIcon = `/images/sibaIcon${useColorModeValue('', '-dark')}.ico`
 
     return (
         <Link href="/">
